@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/RobustBusFareCard/RobustBusFareCard.iml" filepath="$PROJECT_DIR$/RobustBusFareCard/RobustBusFareCard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RobustFoodTruck/RobustFoodTruck.iml" filepath="$PROJECT_DIR$/RobustFoodTruck/RobustFoodTruck.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RobustMovieTheatre/RobustMovieTheatre.iml" filepath="$PROJECT_DIR$/RobustMovieTheatre/RobustMovieTheatre.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RobustStudentRecord/RobustStudentRecord.iml" filepath="$PROJECT_DIR$/RobustStudentRecord/RobustStudentRecord.iml" />
+    </modules>
+  </component>
+</project>

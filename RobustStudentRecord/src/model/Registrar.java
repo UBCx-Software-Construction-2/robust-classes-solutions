@@ -33,11 +33,10 @@ public class Registrar {
         }
     }
 
-    //REQUIRES: that the student represented by the transcript has the necessary prerequisite required
-    //          to take the course.
+
     //MODIFIES: the transcript object passed in as parameter
-    //EFFECTS: given the REQUIRES clause holds, the student represented by the transcript is registered in the given
-    //         course
+    //EFFECTS: if no exception is caught, the student represented by the transcript is registered in the given
+    //         course, otherwise catches MissingPrereqException and CourseFullException
     public boolean registerStudent(Course c, Transcript tct) {
         try {
            return tct.addCourse(c);
@@ -50,7 +49,7 @@ public class Registrar {
 
     //MODIFIES: this list of transcripts
     //EFFECTS: walks through the list, and promotes all eligible students represented by the list of
-    //         transcripts this has
+    //         transcripts this has. Catches GPATooLowException and NoCoursesTakenException.
     public void promoteAllStudents() {
         try {
             for (Transcript t : students) {

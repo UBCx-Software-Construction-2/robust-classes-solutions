@@ -34,9 +34,11 @@ public class BusFareCard {
     public boolean isFareLoaded() { return fareLoaded; }
 
     // MODIFIES: this
-    // EFFECTS: subtract cost of the adult fare from the balance and set the isFareLoaded field to true
+    // EFFECTS: subtract cost of the adult fare from the balance and set the isFareLoaded field to true,
+    //          throws IllegalAgeException if ownerAge <= AGE_CUTOFF,
+    //          throws NoBalanceException if balance - ADULT_FARE <0
     public void purchaseAdultFare() throws IllegalAgeException, NoBalanceException {
-        if (ownerAge <= 18) {
+        if (ownerAge <= AGE_CUTOFF) {
             throw new IllegalAgeException("Please purchase a concession fare.");
         } else {
             if (balance - ADULT_FARE < 0) {
@@ -49,9 +51,11 @@ public class BusFareCard {
     }
 
     // MODIFIES: this
-    // EFFECTS: subtract cost of a concession fare from the balance, set the isFareLoaded field to true
+    // EFFECTS: subtract cost of a concession fare from the balance, set the isFareLoaded field to true,
+    //          throws IllegalAgeException if ownerAge > AGE_CUTOFF,
+    //          throws NoBalanceException if balance - CONCESSION_FARE < 0
     public void purchaseConcessionTicket() throws IllegalAgeException, NoBalanceException {
-        if (ownerAge > 18) {
+        if (ownerAge > AGE_CUTOFF) {
             throw new IllegalAgeException("Please purchase an adult fare.");
         } else {
             if (balance - CONCESSION_FARE < 0) {
@@ -64,7 +68,8 @@ public class BusFareCard {
     }
 
     // MODIFIES: this
-    // EFFECTS: loads the specified amount onto the card's balance field
+    // EFFECTS: loads the specified amount onto the card's balance field,
+    //          throws IllegalAmountException if amount <= 0
     public void reloadBalance(double amount) throws IllegalAmountException {
         if (amount <= 0) {
             throw new IllegalAmountException("This is not a valid amount to reload onto your card.");
@@ -74,7 +79,8 @@ public class BusFareCard {
     }
 
     // MODIFIES: this
-    // EFFECTS: sets fareLoaded field to false, else throws exception
+    // EFFECTS: sets fareLoaded field to false, else throws exception,
+    //          throws MissingFareException if fareLoaded != true
     public void boardBus() throws MissingFareException {
         if (fareLoaded) {
             fareLoaded = false;

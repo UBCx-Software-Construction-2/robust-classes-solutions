@@ -31,7 +31,7 @@ public class TicketKiosk {
     }
 
     // EFFECTS: sells a ticket for the given movie to the given moviegoer. Return true if
-    //          the purchase is successful, else false
+    //          the purchase is successful, else false. Catches UnderAgeException and ShowingFullException.
     public boolean sellTicket(MovieGoer mg, Movie m) {
         try {
             mg.buyTicket(m);

@@ -31,7 +31,9 @@ public class Kitchen {
     }
 
     // MODIFIES: this
-    // EFFECTS:  number is added to tacoCount, and ingredient is decremented accordingly
+    // EFFECTS:  number is added to tacoCount, and ingredient is decremented accordingly,
+    //           throws NoCookException if !cookReady,
+    //           throws NoIngredientException if ingredient - (INGREDIENT_PER_TACO * amount) < 0
     public void makeTaco(int amount) throws NoIngredientException, NoCookException {
         if (!cookReady) {
             throw new NoCookException("We don't have a cook!");
@@ -46,8 +48,8 @@ public class Kitchen {
     }
 
     // MODIFIES: this
-    // EFFECTS: (amount) is added to the ingredient field, and the balance field
-    //          is decremented accordingly
+    // EFFECTS: (amount) is added to the ingredient field, and the balance field is decremented accordingly,
+    //          throws NotEnoughMoneyException if balance = (DOLLAR_PER_INGREDIENT * amount) < 0
     public void buyIngredients(int amount) throws NotEnoughMoneyException {
         if (balance - (DOLLAR_PER_INGREDIENT * amount) < 0) {
             throw new NotEnoughMoneyException("Not enough money to buy ingredients!");

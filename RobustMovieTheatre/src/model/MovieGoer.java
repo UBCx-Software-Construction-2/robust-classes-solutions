@@ -23,8 +23,9 @@ public class MovieGoer {
     public TicketKiosk getTicketKiosk() { return tk; }
     public Ticket getTicket() { return ticket; }
 
-    // EFFECTS: ticket becomes set to a new ticket with the given movie. Throws UnderAgeException
-    //          or ShowingFullException when appropriate
+    // EFFECTS: ticket becomes set to a new ticket with the given movie,
+    //          throws UnderAgeException if age < m.getAgeRestriction,
+    //          throws ShowingFullException if m.isFull
     public boolean buyTicket(Movie m) throws UnderAgeException, ShowingFullException {
         if (age < m.getAgeRestriction()) {
             throw new UnderAgeException("You are too young to watch " + m.getTitle());

@@ -38,6 +38,7 @@ public class Transcript {
 
     // EFFECTS: computes cGPA. In this case, we take it to mean that it is the total grades received so far, divided
     //          by the number of past courses taken.
+    //          throws NoCoursesTakenException if pastCourses is empty
     public double computeGPA() throws NoCoursesTakenException {
         if (this.pastCourses.isEmpty()) {
             throw new NoCoursesTakenException("No courses taken, cannot compute GPA");
@@ -51,7 +52,9 @@ public class Transcript {
         }
     }
 
-    // EFFECTS: promotes the student to the next academic year. If successful, return true, else return false
+    // EFFECTS: promotes the student to the next academic year. If successful, return true, else
+    //          catch NoCoursesTakenException and return false.
+    //          Throws GPAException if thisGPA < 2.6, and NoCoursesTakenException
     public boolean promoteStudent() throws GPATooLowException, NoCoursesTakenException {
         try {
             double thisGPA = this.computeGPA();
@@ -67,9 +70,10 @@ public class Transcript {
         }
     }
 
-    //REQUIRES: the transcript's past courses must not already contain the course you want to add
+
     //MODIFIES: this
-    //EFFECTS: adds the given course to the list of past courses
+    //EFFECTS: adds the given course to the list of past courses and returns true,
+    //         unless pastCourses contains given course, then does not add and returns false
     public boolean addToPastCourses(Course c) {
         if (!pastCourses.contains(c)) {
             pastCourses.add(c);
@@ -80,7 +84,8 @@ public class Transcript {
     }
 
     //MODIFIES: this
-    //EFFECTS: adds a course (c) into the record
+    //EFFECTS: adds a course (c) into the record, throws CourseFullException if course is full,
+    //         throws MissingPrereqException if pastCourses is empty an prereq for course is not empty
     public boolean addCourse(Course course) throws MissingPrereqException, CourseFullException {
         if (pastCourses.isEmpty() && !course.getPrereq().isEmpty()) {
             throw new MissingPrereqException("You do not have the necessary prerequisites.");

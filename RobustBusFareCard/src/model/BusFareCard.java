@@ -34,7 +34,7 @@ public class BusFareCard {
     public boolean isFareLoaded() { return fareLoaded; }
 
     // MODIFIES: this
-    // EFFECTS: subtract cost of the adult fare from the balance and set the isFareLoaded field to true,
+    // EFFECTS: subtract cost of the adult fare from the balance and set the fareLoaded field to true,
     //          throws IllegalAgeException if ownerAge <= AGE_CUTOFF,
     //          throws NoBalanceException if balance - ADULT_FARE <0
     public void purchaseAdultFare() throws IllegalAgeException, NoBalanceException {
@@ -51,7 +51,7 @@ public class BusFareCard {
     }
 
     // MODIFIES: this
-    // EFFECTS: subtract cost of a concession fare from the balance, set the isFareLoaded field to true,
+    // EFFECTS: subtract cost of a concession fare from the balance, set the fareLoaded field to true,
     //          throws IllegalAgeException if ownerAge > AGE_CUTOFF,
     //          throws NoBalanceException if balance - CONCESSION_FARE < 0
     public void purchaseConcessionTicket() throws IllegalAgeException, NoBalanceException {

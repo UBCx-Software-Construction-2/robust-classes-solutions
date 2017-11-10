@@ -33,19 +33,21 @@ public class RegistrarTest {
 
     @Test
     public void testaddStudent() {
+
         assertTrue(testReg.getStudents().isEmpty());
-        assertTrue(testReg.addStudent(testTct1));
+        testReg.addStudent(testTct1);
         assertTrue(testReg.getStudents().contains(testTct1));
-        assertFalse(testReg.addStudent(testTct1));
+        testReg.addStudent(testTct1);
         assertEquals(testReg.getStudents().size(),1);
-        assertTrue(testReg.addStudent(testTct2));
+        testReg.addStudent(testTct2);
         assertTrue(testReg.getStudents().contains(testTct2));
+        assertEquals(testReg.getStudents().size(),2);
     }
 
     @Test
     public void testpromoteAllStudents() {
-        testTct1.addToPastCourses(CPSC110);
-        testTct2.addToPastCourses(CPSC121);
+        testTct1.addToPastCourses(CPSC110,81);
+        testTct2.addToPastCourses(CPSC121,95);
 
         assertEquals(testTct1.getAcademicYear(),1);
         assertEquals(testTct2.getAcademicYear(),3);

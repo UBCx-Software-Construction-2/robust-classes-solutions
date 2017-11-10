@@ -14,7 +14,7 @@ public class Transcript {
     private int year;
     private int id;
     private List<Course> currentCourses;
-    private List<Course> pastCourses;
+    private List<PastCourse> pastCourses;
 
     public Transcript(String studentName, int academicYear, int studentID) {
         name = studentName;
@@ -29,7 +29,7 @@ public class Transcript {
     public int getAcademicYear() { return year; }
     public int getId() { return id; }
     public List<Course> getCurrentCourses() { return currentCourses; }
-    public List<Course> getPastCourses() { return pastCourses; }
+    public List<PastCourse> getPastCourses() { return pastCourses; }
 
     // helper for computeGPA
     private double percentToGPA(double pcnt) {
@@ -45,7 +45,7 @@ public class Transcript {
         } else {
             double totalGradeSum = 0;
 
-            for (Course c : pastCourses) {
+            for (PastCourse c : pastCourses) {
                 totalGradeSum += c.getGrade();
             }
             return percentToGPA(totalGradeSum / pastCourses.size());
@@ -55,18 +55,17 @@ public class Transcript {
     // EFFECTS: promotes the student to the next academic year. If successful, return true, else
     //          catch NoCoursesTakenException and return false.
     //          Throws GPAException if thisGPA < 2.6, and NoCoursesTakenException
-    public boolean promoteStudent() throws GPATooLowException, NoCoursesTakenException {
+    public void promoteStudent() throws GPATooLowException, NoCoursesTakenException {
         try {
             double thisGPA = this.computeGPA();
-            if (thisGPA < 2.6) {
+            if (thisGPA <= 2.6) {
                 throw new GPATooLowException("Cannot promote " + this.getName() + ": GPA too low.");
             } else {
                 this.year++;
-                return true;
             }
         } catch (NoCoursesTakenException e) {
             System.out.println(e.getMessage());
-            return false;
+            throw e;
         }
     }
 
@@ -74,21 +73,21 @@ public class Transcript {
     //MODIFIES: this
     //EFFECTS: adds the given course to the list of past courses and returns true,
     //         unless pastCourses contains given course, then does not add and returns false
-    public boolean addToPastCourses(Course c) {
-        if (!pastCourses.contains(c)) {
-            pastCourses.add(c);
-            return true;
-        } else {
-            return false;
+    public void addToPastCourses(Course c, double grade) {
+
+        PastCourse pastCourse = new PastCourse(grade,c);
+
+        if (!pastCourses.contains(pastCourse)) {
+            pastCourses.add(pastCourse);
         }
     }
 
     //MODIFIES: this
     //EFFECTS: adds a course (c) into the record, throws CourseFullException if course is full,
     //         throws MissingPrereqException if pastCourses is empty an prereq for course is not empty
-    public boolean addCourse(Course course) throws MissingPrereqException, CourseFullException {
+    public void addCourse(Course course) throws MissingPrereqException, CourseFullException {
         if (pastCourses.isEmpty() && !course.getPrereq().isEmpty()) {
-            throw new MissingPrereqException("You do not have the necessary prerequisites.");
+            throw new MissingPrereqException("The student does not have the necessary prerequisites.");
 
         } else if (course.isCourseFull()) {
             throw new CourseFullException("This course is currently full.");
@@ -96,16 +95,17 @@ public class Transcript {
         } else if (course.getPrereq().isEmpty()) {
             currentCourses.add(course);
             course.addStudent();
-            return true;
 
-        } else for (Course c : course.getPrereq()) {
-            if (!pastCourses.contains(c)) {
-                return false;
+        } else {
+            for (Course c : course.getPrereq()) {
+                if (!pastCourses.contains(c)) {
+                    throw new  MissingPrereqException("The student does not have the necessary prerequisites for the" + c.getName() + "course.");
+                }
             }
+            currentCourses.add(course);
+            course.addStudent();
         }
-        currentCourses.add(course);
-        course.addStudent();
-        return true;
+
     }
 
 

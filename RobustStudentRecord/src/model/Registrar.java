@@ -24,12 +24,11 @@ public class Registrar {
 
     //MODIFIES: this
     //EFFECTS: returns true if the student (represented as a transcript) was successfully added to the Registrar's list
-    public boolean addStudent(Transcript stu) {
+    public void addStudent(Transcript stu) {
         if (!students.contains(stu)) {
             students.add(stu);
-            return true;
         } else {
-            return false;
+            System.out.println("Student is already registered.");
         }
     }
 
@@ -37,12 +36,11 @@ public class Registrar {
     //MODIFIES: the transcript object passed in as parameter
     //EFFECTS: if no exception is caught, the student represented by the transcript is registered in the given
     //         course, otherwise catches MissingPrereqException and CourseFullException
-    public boolean registerStudent(Course c, Transcript tct) {
+    public void registerStudent(Course c, Transcript tct) {
         try {
-           return tct.addCourse(c);
+            tct.addCourse(c);
         } catch (MissingPrereqException | CourseFullException e) {
-            System.out.println(e.getMessage());
-            return false;
+            System.out.println("Failed to register student: " + e.getMessage());
         }
 
     }

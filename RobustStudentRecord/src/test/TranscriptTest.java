@@ -18,7 +18,6 @@ public class TranscriptTest {
     private Course CPSC121;
     private Course CPSC210;
     private Course CPSC221;
-    private Course CPSC213;
     private Course CPSC320;
 
     @Before
@@ -27,7 +26,6 @@ public class TranscriptTest {
         CPSC121 = new Course("Science", "Models of Computation", 11, 86.3);
         CPSC210 = new Course("Science", "Introduction to Software Construction", 30, 88.4);
         CPSC221 = new Course("Science", "Basic Data Structures and Algorithms", 23, 88.3);
-        CPSC213 = new Course("Science", "Introduction to Computer Systems", 13, 78.7);
         CPSC320 = new Course("Science", "Intermediate Algorithm Design and Analysis", 44, 90.4);
 
         testTct = new Transcript("John Appleseed", 2, 10639152);
@@ -55,19 +53,19 @@ public class TranscriptTest {
     @Test
     public void computeGPANoException() {
         assertTrue(testTct.getPastCourses().isEmpty());
-        testTct.addToPastCourses(CPSC110);
+        testTct.addToPastCourses(CPSC110, 90);
         try {
             double testResult = testTct.computeGPA();
-            assertEquals(testResult,3.495, 0.05);
+            assertEquals(testResult,3.50, 0.05);
         } catch (NoCoursesTakenException e) {
             fail("Exception should not have been thrown.");
         }
 
-        testTct.addToPastCourses(CPSC121);
+        testTct.addToPastCourses(CPSC121, 80);
 
         try {
             double testResult = testTct.computeGPA();
-            assertEquals(testResult,3.405, 0.05);
+            assertEquals(testResult,3.25, 0.05);
         } catch (NoCoursesTakenException e) {
             fail("Exception should not have been thrown.");
         }
@@ -75,12 +73,16 @@ public class TranscriptTest {
 
     @Test
     public void testpromoteStudentNoException() {
-        testTct.addToPastCourses(CPSC110);
-        testTct.addToPastCourses(CPSC210);
+        testTct.addToPastCourses(CPSC110, 90);
+        testTct.addToPastCourses(CPSC210, 85);
         assertEquals(testTct.getAcademicYear(),2);
 
         try {
-            assertTrue(testTct.promoteStudent());
+            int currYear = testTct.getAcademicYear();
+            testTct.promoteStudent();
+            int promYear = testTct.getAcademicYear();
+
+            assertTrue((currYear + 1) == promYear);
         } catch (GPATooLowException | NoCoursesTakenException e) {
             fail("Exception should not have been thrown.");
         }
@@ -93,7 +95,7 @@ public class TranscriptTest {
         assertEquals(2, testTct.getAcademicYear());
 
         try {
-            assertFalse(testTct.promoteStudent());
+            testTct.promoteStudent();
         } catch (GPATooLowException e) {
             fail("This is the incorrect exception.");
         } catch (NoCoursesTakenException ex) {
@@ -104,8 +106,8 @@ public class TranscriptTest {
 
     @Test
     public void testpromoteStudentGPATooLowException() {
-        Course CPEN261 = new Course("Applied Science", "Computer Systems", 33, 22.5);
-        testTct.addToPastCourses(CPEN261);
+        Course CPEN261 = new Course("Applied Science", "Computer Systems", 33, 65);
+        testTct.addToPastCourses(CPEN261, 22.5);
         assertEquals(testTct.getAcademicYear(),2);
         try {
             testTct.promoteStudent();

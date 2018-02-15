@@ -36,10 +36,14 @@ public class Transcript {
         return (pcnt / 20) - 1;
     }
 
-    // EFFECTS: computes cGPA. In this case, we take it to mean that it is the total grades received so far, divided
-    //          by the number of past courses taken.
-    //          throws NoCoursesTakenException if pastCourses is empty
+    // EFFECTS: computes cGPA
+    //          if the list of past courses is empty, throws NoCoursesTakenException
     public double computeGPA() throws NoCoursesTakenException {
+        //          HINTS:
+        //          use the following formula to convert into a GPA
+        //          GPA (4.0 scale) = (total percentage/20) - 1
+        //          **Do you need a helper method?**
+
         if (this.pastCourses.isEmpty()) {
             throw new NoCoursesTakenException("No courses taken, cannot compute GPA");
         } else {
@@ -52,9 +56,11 @@ public class Transcript {
         }
     }
 
-    // EFFECTS: promotes the student to the next academic year. If successful, return true, else
-    //          catch NoCoursesTakenException and return false.
-    //          Throws GPAException if thisGPA < 2.6, and NoCoursesTakenException
+    // EFFECTS: promotes the student represented by the transcript
+    //          to the next academic year if GPA is over 2.6 on a 4.0 scale, and return true
+    //          else return false with no change to the year field
+    //          if GPA is not over 2.6 on a 4.0 scale, throws GPATooLowException
+    //          if no courses have been taken, throws NoCoursesTakenException
     public void promoteStudent() throws GPATooLowException, NoCoursesTakenException {
         try {
             double thisGPA = this.computeGPA();
@@ -82,9 +88,10 @@ public class Transcript {
         }
     }
 
-    //MODIFIES: this
-    //EFFECTS: adds a course (c) into the record, throws CourseFullException if course is full,
-    //         throws MissingPrereqException if pastCourses is empty an prereq for course is not empty
+    // MODIFIES: this
+    // EFFECTS: adds a course (c) into the record
+    //          if the transcript is missing prerequisites, throws a MissingPrereqException
+    //          if the course has no space for more students to register, throws a CourseFullException
     public void addCourse(Course course) throws MissingPrereqException, CourseFullException {
         if (pastCourses.isEmpty() && !course.getPrereq().isEmpty()) {
             throw new MissingPrereqException("The student does not have the necessary prerequisites.");

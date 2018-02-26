@@ -79,13 +79,16 @@ public class Transcript {
     //MODIFIES: this
     //EFFECTS: adds the given course to the list of past courses and returns true,
     //         unless pastCourses contains given course, then does not add and returns false
-    public void addToPastCourses(Course c, double grade) {
+    public boolean addToPastCourses(Course c, double grade) {
 
         PastCourse pastCourse = new PastCourse(grade,c);
 
         if (!pastCourses.contains(pastCourse)) {
             pastCourses.add(pastCourse);
+            return true;
         }
+
+        return false;
     }
 
     // MODIFIES: this

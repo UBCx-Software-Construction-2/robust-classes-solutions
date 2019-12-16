@@ -35,6 +35,7 @@ public class MovieGoer {
             } else {
                 ticket = new Ticket(m);
                 m.addViewer();
+                this.ticket = ticket;
                 return true;
             }
         }

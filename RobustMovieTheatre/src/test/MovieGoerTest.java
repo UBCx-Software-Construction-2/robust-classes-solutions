@@ -57,8 +57,10 @@ public class MovieGoerTest {
         assertEquals(mg2.getTicket(),null);
         try {
             mg2.buyTicket(m1);
-        } catch (UnderAgeException | ShowingFullException e) {
+        } catch (UnderAgeException e) {
             System.out.println(e.getMessage());
+        } catch (ShowingFullException e) {
+            fail("Showing is not full");
         }
 
         assertEquals(mg2.getTicket(),null);
